@@ -11,5 +11,12 @@ jobs:
         uses: actions/checkout@v3
       - id: set_var
         run: |
-          python test.py
-  
+          content=`cat package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+      - run: |
+          echo "${{steps.set_var.outputs.packageJson}}"
