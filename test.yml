@@ -9,6 +9,5 @@ jobs:
     steps:
       - id: set_var
         run: |
-          pwd
-          ls -la
+          python test.py
   
