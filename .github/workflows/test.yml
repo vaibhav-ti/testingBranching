@@ -9,15 +9,13 @@ jobs:
     steps:
       - id: set_var
         run: |
-          content=`cat test.json`
+          content=`cat ./test.json`
           # the following lines are only required for multi line json
           content="${content//'%'/'%25'}"
           content="${content//$'\n'/'%0A'}"
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
-      - run: |
-          echo "${{fromJson(steps.set_var.outputs.packageJson)}}"
 
       - name: Send Resources Created
         uses: fjogeleit/http-request-action@v1.12.0
