@@ -1,15 +1,20 @@
-name: build
-on: push
+name: Test linux job
+on:
+  push
+
 jobs:
-  job1:
+  testJob:
+    name: Test
     runs-on: ubuntu-latest
     steps:
-      - name: Read json
-        id: read-json
-        shell: pwsh
+      - id: set_var
         run: |
-          $json = Get-Content test.json | ConvertFrom-Json
-          echo "::set-output name=prop::$(echo $json.prop)"
-
-      - run: echo ${{ steps.read-json.outputs}}
-    
+          content=`cat ./package.json`
+          # the following lines are only required for multi line json
+          content="${content//'%'/'%25'}"
+          content="${content//$'\n'/'%0A'}"
+          content="${content//$'\r'/'%0D'}"
+          # end of optional handling for multi line json
+          echo "::set-output name=packageJson::$content"
+      - run: |
+          echo "${{steps.set_var.outputs.packageJson}}"
