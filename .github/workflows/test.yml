@@ -6,10 +6,10 @@ jobs:
     steps:
       - name: Read json
         id: read-json
-        shell: push
+        shell: pwsh
         run: |
           $json = Get-Content test.json | ConvertFrom-Json
-          echo "::set-output name=prop::$(echo $json)"
+          echo "::set-output name=prop::$(echo $json.prop)"
 
       - run: echo ${{ steps.read-json.outputs}}
     
