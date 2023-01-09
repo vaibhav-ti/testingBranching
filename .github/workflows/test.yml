@@ -18,5 +18,10 @@ jobs:
           content="${content//$'\r'/'%0D'}"
           # end of optional handling for multi line json
           echo "::set-output name=packageJson::$content"
-      - run: |
-          echo "${{steps.set_var.outputs.packageJson}}"
+
+      - name: Send resource info to platform
+        uses: fjogeleit/http-request-action@v1.12.0
+        with:
+          url: "https://8000-trilogygrou-processbppl-csl0gsl8fqk.ws.trilogy.devspaces.com/resources/add_aws_resources/"
+          method: "POST"
+          data: '{"repository": "${{ github.repository }}", "branch": "main", "output": "${{steps.set_var.outputs.packageJson}}"}'
