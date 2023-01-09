@@ -15,4 +15,4 @@ payload = {
 
 r = requests.post(
     git_pulls_api,
-    data=json.dumps(payload))
+    data=payload)
