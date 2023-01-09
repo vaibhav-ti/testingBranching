@@ -10,4 +10,5 @@ jobs:
       - id: set_var
         run: |
           pwd
+          ls -la
   
