@@ -9,19 +9,7 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      - id: set_var
-        run: |
-          content=`cat package.json`
-          # the following lines are only required for multi line json
-          content="${content//'%'/'%25'}"
-          content="${content//$'\n'/'%0A'}"
-          content="${content//$'\r'/'%0D'}"
-          # end of optional handling for multi line json
-          echo "::set-output name=packageJson::$content"
 
       - name: Send resource info to platform
-        uses: fjogeleit/http-request-action@v1.12.0
-        with:
-          url: "https://8000-trilogygrou-processbppl-csl0gsl8fqk.ws.trilogy.devspaces.com/resources/add_aws_resources/"
-          method: "POST"
-          data: '{"repository": "${{ github.repository }}", "branch": "main", "output": "${{steps.set_var.outputs.packageJson}}"}'
+        run: |
+          python test.py ${{ github.repository }} main ${{ secrets.SOME }}
